@@ -379,7 +379,10 @@ using OffsetArrays
     @tullio L[i] := I[i] + 1 # I is an offset matrix
     @test L == vec(I) .+ 1
 
-    # indexing by an array
+    @tullio V[i] := I[end-i+1] # does not use lastindex(I,1)
+    @test V == reverse(vec(I))
+
+    # indexing by an array: gather
     inds = [-1,0,0,0,1]
     @tullio K[i,j] := A[inds[i]+j]
     @test K[2,3] == K[3,3] == K[4,3]
